@@ -22,12 +22,10 @@ def zip_file(output_file, zip_name):
 
 # Function to send email
 def send_email(receiver_email, attachment_path):
-    sender_email = "YOUR_EMAIL@gmail.com"  # REPLACE WITH YOUR EMAIL
-    sender_password = "YOUR_APP_PASSWORD"   # REPLACE WITH YOUR APP PASSWORD
+    sender_email = "kkandhari_be23@thapar.edu"
+    sender_password = "besp tzpv oftu svcd"
     
-    if sender_email == "YOUR_EMAIL@gmail.com":
-        st.error("Email credentials not configured! Please update source code with valid sender email and app password.")
-        return False
+
 
     msg = MIMEMultipart()
     msg['From'] = sender_email
