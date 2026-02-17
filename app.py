@@ -1,3 +1,13 @@
+try:
+    import audioop
+except ImportError:
+    import sys
+    try:
+        import audioop_lts as audioop
+        sys.modules['audioop'] = audioop
+    except ImportError:
+        pass
+
 import streamlit as st
 import os
 import sys
@@ -57,46 +67,71 @@ def send_email(receiver_email, attachment_path):
         st.error(f"Failed to send email: {e}")
         return False
 
-# Custom CSS for "Beautiful" Design
+# Custom CSS for "Beautiful" Design (Glassmorphism)
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+
     .stApp {
-        background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
+        font-family: 'Outfit', sans-serif;
     }
-    .stTextInput > div > div > input {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-    .stNumberInput > div > div > input {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
-    }
-    h1 {
-        text-align: center;
-        font-family: 'Helvetica Neue', sans-serif;
-        text-shadow: 2px 2px 4px #000000;
-        padding-bottom: 20px;
-    }
-    .stButton>button {
-        background-color: #ff4b4b;
-        color: white;
+
+    /* Glassmorphism Container */
+    .stForm {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         border-radius: 20px;
-        padding: 10px 24px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    }
+
+    .stTextInput > div > div > input, .stNumberInput > div > div > input {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 12px !important;
+        color: white !important;
+        padding: 10px !important;
+    }
+
+    h1 {
+        font-weight: 700;
+        letter-spacing: -1px;
+        background: -webkit-linear-gradient(white, #ccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .stButton > button {
+        background: linear-gradient(45deg, #ff4b2b, #ff416c);
         border: none;
+        border-radius: 12px;
+        color: white;
+        padding: 15px 32px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
         width: 100%;
-        font-weight: bold;
-        transition: all 0.3s ease 0s;
+        margin-top: 20px;
     }
-    .stButton>button:hover {
-        background-color: #ff6b6b;
-        transform: translateY(-2px);
-        box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+
+    .stButton > button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
     }
-    label {
-        font-weight: bold;
-        font-size: 1.1rem !important;
+
+    /* Success/Error Styling */
+    .stAlert {
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 </style>
 """, unsafe_allow_html=True)
